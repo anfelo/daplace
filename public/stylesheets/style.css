@@ -1,0 +1,87 @@
+/* Base Styles */
+body {
+	position: relative;
+	background: linear-gradient(90deg, #d4eece, #55b3d0, #1e7eb7), url('../images/background.jpg') center no-repeat;
+	background-blend-mode: multiply;
+	background-size: cover;
+	background-size: cover;
+	color: white; 
+	font-family: Helvetica, sans-serif;
+}
+a {
+	text-decoration: none;
+	color: white;
+}
+/* Component Styles */
+.main-wrapper {
+	width: 70%;
+	margin: auto;
+	text-align: center;
+}
+.navbar {
+	padding: 2.2rem 0;
+	display: flex;
+	justify-content: space-between;
+}
+.logo-container {
+	font-family: 'Fredoka One', cursive;
+	font-size: 1.8em;
+}
+.content-wrapper {
+	padding-top: 60px;
+}
+.jumbotron {
+	font-family: 'Chewy', cursive;
+	letter-spacing: 2px;
+	font-size: 2em;
+	text-shadow: 1px 1px #000;
+}
+.form-group {
+	width: 60%;
+	margin: auto;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+	padding: 7px;
+}
+.btn {
+	width: 10%;
+	color: white;
+	padding: 10px 15px;
+	margin: 12px 5px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.4s ease-out;
+}
+.navbar-btn {
+	background-color: transparent;
+	border: 2px solid #53bbb4;
+	color: #53bbb4;
+}
+.navbar-btn:hover {
+	background-color: #53bbb4;
+	color: white;
+}
+input[type=text] {
+	width: 100%;
+	padding: 16px 20px;
+	margin: 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+button[type=submit] {
+	background-color: #53bbb4;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+	padding: 17px 20px;
+}
+button[type=submit]:hover {
+	background-color: #838cc7;
+}
+.footer {
+	position: absolute;
+	width: 70%;
+	bottom: 10px;
+	text-align: center;
+}
