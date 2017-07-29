@@ -1,14 +1,22 @@
 var express = require('express');
-var jsonParser = require('body-parser').json;
+var bodyParser = require('body-parser');
+var pug = require('pug');
 var app = express();
 
-app.use(jsonParser());
+// parse incoming requests
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// GET / 
-// Home Route
-app.get('/', function(req,res,next){
-	res.send('Hello');
-});
+// serve static files from /public
+app.use(express.static(__dirname + '/public'));
+
+// view engine setup
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
+
+// include routes
+var routes = require('./routes/index');
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
