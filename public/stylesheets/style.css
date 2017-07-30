@@ -36,6 +36,15 @@ a {
 	font-size: 2em;
 	text-shadow: 1px 1px #000;
 }
+.out-layout-wrapper {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+}
+.search-city {
+	text-align: left;
+}
 .form-group {
 	width: 60%;
 	margin: auto;
@@ -80,8 +89,124 @@ button[type=submit]:hover {
 	background-color: #838cc7;
 }
 .footer {
-	position: absolute;
 	width: 70%;
-	bottom: 10px;
+	margin: auto;
 	text-align: center;
+}
+.footer-container {
+	width: 100%;
+	margin: 20px auto 0;
+	padding: 20px 0;
+	background-color: rgba(33, 33, 33, 1);
+}
+.footer-container-home {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.expanded {
+	width: 100%;
+	background-color: rgba(33, 33, 33, 1);
+}
+.inline-form {
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	padding: 10px 0;
+}
+.inline-form .form-group {
+	margin: 12px 0;
+	padding: 0;
+}
+/* Search Items  */
+
+.search-items-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: rgba(240, 240, 240, 1);
+	padding-top: 30px;
+}
+.search-item {
+	width: 70%;
+	margin: 10px auto;
+	padding: 15px;
+	height: 200px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	background-color: #fff;
+	border: 1px solid #e2e2e2;
+	color: rgba(60, 60, 60, 1);
+	border-radius: 4px;
+	z-index: 99;
+	transition: box-shadow 0.2s ease-out;
+}
+.search-item:hover {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
+}
+.img-container {
+	width: 200px;
+	height: 200px;
+	background-color: #939393;
+}
+.details-container {
+	flex-grow: 2;
+	margin: 0 10px;
+}
+.details-container .name {
+	font-family: 'Fredoka One', cursive;
+	font-size: 2.5em;
+	border-bottom: 1px solid #e2e2e2;
+	margin: 0;
+	padding: 10px 0;
+}
+.address, 
+.phone {
+	padding: 10px 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+.yelp-url {
+	padding-top: 10px;
+}
+.yelp-url a {
+	color:#53bbb4;
+	transition: color 0.4s ease-out;
+}
+.yelp-url a:hover {
+	color: #838cc7;
+}
+.aditional-info-container {
+	position: relative;
+	width: 200px;
+	height: 200px;
+	text-align: right;
+	border-left: 2px solid rgba(0,0,0,0.1);
+	padding-left: 15px;
+}
+.rating-container {
+	padding-bottom: 5px;
+	border-bottom: 1px solid #e2e2e2;
+}
+.rating-container i {
+	color: #53bbb4;
+	transition: color 0.4s ease-out;
+}
+.rating-container i:hover {
+	color: #838cc7;
+}
+.rating-container h3{
+	margin: 8px 0;
+}
+.price, 
+.status {
+	padding: 5px 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+.search-item-btn {
+	position: absolute;
+	width: 50%;
+	bottom: 0;
+	right: 0;
 }

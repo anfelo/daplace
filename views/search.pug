@@ -1,0 +1,53 @@
+extends layout
+
+block content
+	.content-wrapper
+		.jumbotron.search-city
+			h1 #{places[0].location.city}
+		.out-layout-wrapper
+			.form-container.expanded
+				form.inline-form(method='POST' action='/search')
+					div.form-group
+						input.form-control(type='text' id='city' placeholder='Where do you want to create memories tonight?' name='city')
+					button.btn.form-btn(type='submit') Lets go!
+			.search-items-container
+				each place in places
+					.search-item
+						.img-container(style='background:url('+place.image_url+') center no-repeat; background-size:cover;')
+						.details-container
+							.item-title #{place.categories[0].title}
+							.item-name
+								h1.name #{place.name}
+							.details
+								.address 
+									strong Address: 
+									| #{place.location.address1}, #{place.location.zip_code}
+								.phone 
+									strong Phone:
+									| #{place.phone} 
+								.yelp-url
+									a(href=place.url target='_blank') Click for more details!
+						.aditional-info-container 
+							.rating-container
+								- var n = place.rating;
+								- while(n > 0) {
+										if Number.isInteger(n) || n >= 1
+											i.fa.fa-star
+											-n--
+										else 
+											i.fa.fa-star-half-empty
+											-n--
+								- }
+								h3 Rating: #{place.rating}
+							.price 
+								| Price: 
+								strong #{place.price}
+							if place.is_closed
+								.status.open Open Now!
+							else
+								.status.open Closed Now
+							form(method='POST' action='/search')
+								button.btn.form-btn.search-item-btn(type='submit') I'm in!
+				.footer-container
+					// load footer.pug
+					include footer

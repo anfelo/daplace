@@ -31,7 +31,7 @@ router.post('/search', function(req, res, next){
 
 		client.search(searchRequest).then(response => {
 			var results = response.jsonBody.businesses;
-			res.json(results);
+			res.render('search', {places: results});
 		}).catch(e => {
 				next(e);
 		});
