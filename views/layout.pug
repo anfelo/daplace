@@ -1,0 +1,27 @@
+doctype html(lang='en')
+head
+	meta(charset='utf-8')
+	meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+	meta(http-equiv='x-ua-compatible', content='ie=edge')
+	title Daplace | #{title}
+	link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css')
+	link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+	link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Chewy')
+	link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Fredoka+One')
+	link(rel='stylesheet', href='/stylesheets/style.css')
+
+	body
+		.main-wrapper
+			// load navbar.jade
+			include navbar
+
+			// content block
+			block content
+			
+			// footer
+			p.footer 2017 &copy; anfelo 
+				a(href='https://github.com/anfelo/daplace' target='_blank')
+					i.fa.fa-github
+
+			script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+			script(src='/js/app.js')
