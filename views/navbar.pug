@@ -3,4 +3,7 @@
 		i.fa &#xf000;
 		|  DAPLACE
 	.nav-items
-		a.btn.navbar-btn(href='#') Login
+		if !username
+			a.btn.navbar-btn(href='/login') Log in
+		else
+			a.btn.navbar-btn(href='/logout') Log out
