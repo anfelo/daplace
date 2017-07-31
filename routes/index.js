@@ -68,8 +68,10 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 	// Request bars to Yelp API
 	if(req.cookies.search_error) res.clearCookie('search_error');
 	var page = parseInt(req.query.offset) - 1;
+	var city = req.body.city.toLowerCase() || req.cookie.city.city;
+	var country = req.body.country.toLowerCase() || req.cookie.city.country;
 	searchRequest.offset = page * 20;
-	searchRequest.location = req.body.city.toLowerCase()+', '+req.body.country.toLowerCase();
+	searchRequest.location = city+', '+country;
 	yelp.accessToken(clientId, clientSecret).then(response => {
   var client = yelp.client(response.jsonBody.access_token);
 		client.search(searchRequest).then(response => {
@@ -84,7 +86,7 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 			} else if(response.jsonBody.total/4 <= 80) {
 				max_pages = 4;
 			}
-			res.cookie( 'city', {city:req.body.city, page:page+1, max_pages:max_pages} );
+			res.cookie( 'city', {city:req.body.city, country:req.body.country, page:page+1, max_pages:max_pages} );
 			res.render('search', {places: results, userPlaces: req.userPlaces, page: page + 1, max_pages: max_pages, title: 'Search'});
 		}).catch(e => {
 			res.cookie( 'search_error', searchRequest.location );
