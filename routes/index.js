@@ -11,66 +11,84 @@ var clientSecret = 'L0fDXzoPl2NZQRnb6BwMtIhEU5GSuSGRC1I6ly1L1U1WhqrXgkgQZZg9dnCL
 var searchRequest = {
   term: 'Bars',
   location: '',
-  categories: 'nightlife'
+	categories: 'nightlife',
+	offset: 0,
 };
 
 var results;
 
 router.param('pID', function (req, res, next, id) {
-	User.findOne({ username: req.session.username })
-			.exec(function (error, user){
-				if(error){
-					return next(error);
-				} else if (!user) {
-					error = new Error('Not Found');
-					error.status = 404;
-					return next(DOMError);
-				} else {
-					if (user.places_id.indexOf(id) === -1){
-						user.places_id.push(id);
-						user.save(function(err, user) {
-							if(err) return next(err);
-							return next();
-						});
+	if(req.session && req.session.username) {
+		User.findOne({ username: req.session.username })
+				.exec(function (error, user){
+					if(error){
+						return next(error);
+					} else if (!user) {
+						error = new Error('Not Found');
+						error.status = 404;
+						return next(DOMError);
 					} else {
-						// Delete id
-						user.places_id.splice(user.places_id.indexOf(id),1);
-						user.save(function(err, question) {
-							if(err) return next(err);
-							return next();
-						});
+						if (user.places_id.indexOf(id) === -1){
+							user.places_id.push(id);
+							user.save(function(err, user) {
+								if(err) return next(err);
+								return next();
+							});
+						} else {
+							// Delete id
+							user.places_id.splice(user.places_id.indexOf(id),1);
+							user.save(function(err, question) {
+								if(err) return next(err);
+								return next();
+							});
+						}
 					}
-				}
-			});
+				});
+	} else {
+		return res.redirect('/login');
+	}
 });
 
 // GET / 
 // Home Route
 router.get('/', function(req, res, next){
-	res.render('home', {title:'Home'});
+	res.render('home', {title:'Home', search_error: req.cookies.search_error || null});
 });
 
 router.get('/search', mid.getUserPlaces, function(req, res, next){
 	if(!req.cookies.city || !results) {
 		return res.redirect('/');
 	}
-	res.render('search', {places: results, userPlaces: req.userPlaces, title: 'Search'});
+	res.render('search', {places: results, userPlaces: req.userPlaces, page:req.cookies.city.page, max_pages:req.cookies.city.max_pages, title: 'Search'});
 });
 
 // POST /search
 // Display Search
 router.post('/search', mid.getUserPlaces,function(req, res, next){
 	// Request bars to Yelp API
+	if(req.cookies.search_error) res.clearCookie('search_error');
+	var page = parseInt(req.query.offset) - 1;
+	searchRequest.offset = page * 20;
 	searchRequest.location = req.body.city.toLowerCase();
 	yelp.accessToken(clientId, clientSecret).then(response => {
   var client = yelp.client(response.jsonBody.access_token);
-
 		client.search(searchRequest).then(response => {
-			res.cookie( 'city', req.body.city );
 			results = response.jsonBody.businesses;
-			res.render('search', {places: results, userPlaces: req.userPlaces, title: 'Search'});
+			var max_pages = 5;
+			if(response.jsonBody.total/1 <= 20) {
+				max_pages = 1;
+			} else if(response.jsonBody.total/2 <= 40) {
+				max_pages = 2;
+			} else if(response.jsonBody.total/3 <= 60) {
+				max_pages = 3;
+			} else if(response.jsonBody.total/4 <= 80) {
+				max_pages = 4;
+			}
+			res.cookie( 'city', {city:req.body.city, page:page+1, max_pages:max_pages} );
+			res.render('search', {places: results, userPlaces: req.userPlaces, page: page + 1, max_pages: max_pages, title: 'Search'});
 		}).catch(e => {
-				next(e);
+			res.cookie( 'search_error', req.body.city );
+			res.redirect('/');
 		});
 	}).catch(e => {
 		next(e);
@@ -80,12 +98,7 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 // POST /search/:pId
 // Search for bars in the specified city
 router.post('/search/:pID',function(req, res, next){
-	if(req.session && req.session.username) {
-		return res.redirect('/search');
-	}
-	else {
-		return res.redirect('/login');
-	}
+	return res.redirect('/search');
 });
 
 router.get('/login', function(req, res, next){

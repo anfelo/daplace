@@ -6,10 +6,19 @@ block content
 			h1 #{places[0].location.city}
 		.out-layout-wrapper
 			.form-container.expanded
-				form.inline-form(method='POST' action='/search')
+				form.inline-form(method='POST' action='/search?offset=1')
 					div.form-group
 						input.form-control(type='text' id='city' placeholder='Where do you want to create memories tonight?' name='city')
 					button.btn.form-btn(type='submit') Lets go!
+			- var i = 1;
+			.pagination-container
+				while i <= max_pages
+					if page === i
+						form(method='POST' action='/search?offset='+i)
+							button.page-btn.selected(type='submit' name='city' value=places[0].location.city disabled)= i++
+					else
+						form(method='POST' action='/search?offset='+i)
+							button.page-btn(type='submit' name='city' value=places[0].location.city)= i++
 			.search-items-container
 				each place in places
 					.search-item
@@ -42,10 +51,10 @@ block content
 							.price 
 								| Price: 
 								strong #{place.price}
-							if place.is_closed
+							if !place.is_closed
 								.status.open Open Now!
 							else
-								.status.open Closed Now
+								.status Closed Now
 							form(method='POST' action='/search/'+place.id)
 								-if(userPlaces.indexOf(place.id) !== -1) {
 									button.btn.form-btn.search-item-btn.btn-active(type='submit') Not going!
