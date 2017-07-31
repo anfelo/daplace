@@ -68,7 +68,7 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 	// Request bars to Yelp API
 	if(req.cookies.search_error) res.clearCookie('search_error');
 	if(req.cookies.city){
-		searchRequest.location = req.cookie.city.city + ', ' + req.cookie.city.country;
+		searchRequest.location = req.cookies.city.city + ', ' + req.cookies.city.country;
 	} else {
 		searchRequest.location = req.body.city.toLowerCase() + ', ' + req.body.country.toLowerCase();
 	}
