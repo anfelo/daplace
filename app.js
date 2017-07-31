@@ -8,7 +8,10 @@ var app = express();
 
 // mongodb connection
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/daplace");
+// SET MONGOLAB_URI=mongodb://master:capri1801@ds129023.mlab.com:29023/daplace
+var url = process.env.MONGOLAB_URI;
+console.log(url);
+mongoose.connect(url);
 var db = mongoose.connection;
 
 // mongo error
