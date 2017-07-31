@@ -10,7 +10,6 @@ var app = express();
 mongoose.Promise = global.Promise;
 // SET MONGOLAB_URI=mongodb://master:capri1801@ds129023.mlab.com:29023/daplace
 var url = process.env.MONGOLAB_URI;
-console.log(url);
 mongoose.connect(url);
 var db = mongoose.connection;
 

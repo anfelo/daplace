@@ -14,7 +14,7 @@ var _twitterConsumerSecret = "c0gxbVby5040PbdyaOagglhgjoFIQBGOIGrHWrjAcRY0xZexD5
 
 var consumer = new oauth.OAuth(
     "https://twitter.com/oauth/request_token", "https://twitter.com/oauth/access_token", 
-    _twitterConsumerKey, _twitterConsumerSecret, "1.0A", "http://127.0.0.1:3000/session/callback", "HMAC-SHA1");
+    _twitterConsumerKey, _twitterConsumerSecret, "1.0A", "https://anfelo-daplace.herokuapp.com/session/callback", "HMAC-SHA1");
 
 router.get('/connect', function(req, res){
   consumer.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
