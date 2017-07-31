@@ -23,6 +23,12 @@ a {
 	display: flex;
 	justify-content: space-between;
 }
+.nav-items {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
 .logo-container {
 	font-family: 'Fredoka One', cursive;
 	font-size: 1.8em;
@@ -53,7 +59,7 @@ a {
 	padding: 7px;
 }
 .btn {
-	width: 10%;
+	width: 100px;
 	color: white;
 	padding: 10px 15px;
 	margin: 12px 5px;
@@ -63,6 +69,7 @@ a {
 	transition: all 0.4s ease-out;
 }
 .navbar-btn {
+	width: 60px;
 	background-color: transparent;
 	border: 2px solid #53bbb4;
 	color: #53bbb4;
@@ -70,6 +77,12 @@ a {
 .navbar-btn:hover {
 	background-color: #53bbb4;
 	color: white;
+}
+.profile-img {
+	margin: 0 5px;
+	width: 40px;
+	height: 40px;
+	border-radius: 4px;
 }
 input[type=text] {
 	width: 100%;
@@ -206,7 +219,16 @@ button[type=submit]:hover {
 }
 .search-item-btn {
 	position: absolute;
-	width: 50%;
+	width: 90%;
+	margin-left: 0;
+	margin-right: 0;
 	bottom: 0;
 	right: 0;
+}
+.search-item-btn.btn-active {
+	background-color: #e15258;
+	transition: background-color 0.2s ease-out;
+}
+.search-item-btn.btn-active:hover {
+	background-color: #e0ab18;
 }

@@ -6,4 +6,6 @@
 		if !username
 			a.btn.navbar-btn(href='/login') Log in
 		else
+			.profile-username #{username}
+			.profile-img(style='background:url('+profile_img+') center no-repeat; background-size:cover;')
 			a.btn.navbar-btn(href='/logout') Log out

@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var inspect = require('util-inspect');
 var oauth = require('oauth');
+var User = require('../models/user');
 
 var router = express.Router();
 
@@ -48,15 +49,36 @@ router.get('/callback', function(req, res){
   });
 });
 
-router.get('/', function(req, res){
+router.get('/', function(req, res, next){
     consumer.get("https://api.twitter.com/1.1/account/verify_credentials.json", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, data, response) {
       if (error) {
         res.redirect('/session/connect');
       } else {
-				var parsedData = JSON.parse(data);
-				req.session.username = parsedData.name;
-				// Check if user is already in database
-        res.redirect('/search');
+        var parsedData = JSON.parse(data);
+        User.findOne({ username: parsedData.screen_name })
+            .exec(function (error, user){
+                if(error){
+                  return next(error);
+                } else if (!user) {
+                  var userData = {
+                    username: parsedData.screen_name,
+                    img_url: parsedData.profile_image_url_https,
+                  };
+                  User.create(userData, function(error, user){
+                    if(error){
+                      return next(error);
+                    } else {
+                      req.session.username = parsedData.screen_name;
+                      req.session.profile_img = parsedData.profile_image_url_https;
+                      return res.redirect('/search');
+                    }
+                  });
+                } else {
+                  req.session.username = parsedData.screen_name;
+                  req.session.profile_img = parsedData.profile_image_url_https;
+                  return res.redirect('/search');
+                }
+            });
       } 
     });
 });

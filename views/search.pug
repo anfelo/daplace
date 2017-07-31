@@ -47,7 +47,11 @@ block content
 							else
 								.status.open Closed Now
 							form(method='POST' action='/search/'+place.id)
-								button.btn.form-btn.search-item-btn(type='submit') I'm in!
+								-if(userPlaces.indexOf(place.id) !== -1) {
+									button.btn.form-btn.search-item-btn.btn-active(type='submit') Not going!
+								-} else {
+									button.btn.form-btn.search-item-btn(type='submit') I'm in!
+								-}
 				.footer-container
 					// load footer.pug
 					include footer

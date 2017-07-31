@@ -7,6 +7,7 @@ var MongoStore = require('connect-mongo')(session);
 var app = express();
 
 // mongodb connection
+mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost:27017/daplace");
 var db = mongoose.connection;
 
@@ -30,7 +31,8 @@ app.use(cookieParser());
 
 // make the session available in templates
 app.use(function(req, res, next) {
-  res.locals.username = req.session.username;
+	res.locals.username = req.session.username;
+	res.locals.profile_img = req.session.profile_img;
   next();
 });
 
