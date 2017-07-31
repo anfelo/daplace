@@ -63,6 +63,8 @@ a {
 }
 .form-group {
 	width: 60%;
+	display: flex;
+	justify-content: space-between;
 	margin: auto;
 	background-color: rgba(0, 0, 0, 0.3);
 	border-radius: 4px;
@@ -95,13 +97,16 @@ a {
 	border-radius: 4px;
 }
 input[type=text] {
-	width: 100%;
 	padding: 16px 20px;
 	margin: 0;
 	display: inline-block;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
+}
+input[type=text].city-input {
+	flex-grow: 2;
+	margin-right: 10px;
 }
 button[type=submit] {
 	background-color: #53bbb4;

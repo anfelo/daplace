@@ -69,7 +69,7 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 	if(req.cookies.search_error) res.clearCookie('search_error');
 	var page = parseInt(req.query.offset) - 1;
 	searchRequest.offset = page * 20;
-	searchRequest.location = req.body.city.toLowerCase();
+	searchRequest.location = req.body.city.toLowerCase()+', '+req.body.country.toLowerCase();
 	yelp.accessToken(clientId, clientSecret).then(response => {
   var client = yelp.client(response.jsonBody.access_token);
 		client.search(searchRequest).then(response => {
@@ -87,7 +87,7 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 			res.cookie( 'city', {city:req.body.city, page:page+1, max_pages:max_pages} );
 			res.render('search', {places: results, userPlaces: req.userPlaces, page: page + 1, max_pages: max_pages, title: 'Search'});
 		}).catch(e => {
-			res.cookie( 'search_error', req.body.city );
+			res.cookie( 'search_error', searchRequest.location );
 			res.redirect('/');
 		});
 	}).catch(e => {

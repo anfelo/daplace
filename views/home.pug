@@ -10,7 +10,8 @@ block content
 		.form-container
 			form(method='POST' action='/search?offset=1')
 				div.form-group
-					input.form-control(type='text' id='city' placeholder='Where do you want to create memories tonight?' name='city')
+					input.form-control.city-input(type='text' id='city' placeholder='Which city are you planning on parting tonight?' name='city' required)
+					input.form-control.country-input(type='text' id='country' placeholder='What country is that?' name='country' required)
 				button.btn.form-btn(type='submit') Lets go!
 	.footer-container-home
 		// load footer.pug
