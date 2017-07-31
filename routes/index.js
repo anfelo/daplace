@@ -67,11 +67,13 @@ router.get('/search', mid.getUserPlaces, function(req, res, next){
 router.post('/search', mid.getUserPlaces,function(req, res, next){
 	// Request bars to Yelp API
 	if(req.cookies.search_error) res.clearCookie('search_error');
+	if(req.cookies.city){
+		searchRequest.location = req.cookie.city.city + ', ' + req.cookie.city.country;
+	} else {
+		searchRequest.location = req.body.city.toLowerCase() + ', ' + req.body.country.toLowerCase();
+	}
 	var page = parseInt(req.query.offset) - 1;
-	var city = req.body.city.toLowerCase() || req.cookie.city.city;
-	var country = req.body.country.toLowerCase() || req.cookie.city.country;
 	searchRequest.offset = page * 20;
-	searchRequest.location = city+', '+country;
 	yelp.accessToken(clientId, clientSecret).then(response => {
   var client = yelp.client(response.jsonBody.access_token);
 		client.search(searchRequest).then(response => {
