@@ -16,10 +16,12 @@ var consumer = new oauth.OAuth(
     "https://twitter.com/oauth/request_token", "https://twitter.com/oauth/access_token", 
     _twitterConsumerKey, _twitterConsumerSecret, "1.0A", "https://anfelo-daplace.herokuapp.com/session/callback", "HMAC-SHA1");
 
-router.get('/connect', function(req, res){
+router.get('/connect', function(req, res, next){
   consumer.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
     if (error) {
-      res.send("Error getting OAuth request token : " + inspect(error), 500);
+      var err = new Error('Error getting OAuth request token from twitter');
+      err.status = 500;
+      next(err);
     } else {  
       req.session.oauthRequestToken = oauthToken;
       req.session.oauthRequestTokenSecret = oauthTokenSecret;
@@ -28,10 +30,12 @@ router.get('/connect', function(req, res){
   });
 });
 
-router.get('/callback', function(req, res){
+router.get('/callback', function(req, res, next){
   consumer.getOAuthAccessToken(req.session.oauthRequestToken, req.session.oauthRequestTokenSecret, req.query.oauth_verifier, function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
     if (error) {
-      res.send("Error getting OAuth access token : " + inspect(error) + "[" + oauthAccessToken + "]" + "[" + oauthAccessTokenSecret + "]" + "[" + inspect(result) + "]", 500);
+      var err = new Error('Error getting OAuth access token from twitter');
+      err.status = 500;
+      next(err);
     } else {
       req.session.oauthAccessToken = oauthAccessToken;
       req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;

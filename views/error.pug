@@ -3,7 +3,8 @@ extends layout
 block content
 	.content-wrapper
 		.jumbotron
-			h1 Oops: #{error}!
+			h1 Error: #{error.status}
+			h3 Oops: #{error.message}!
 	.footer-container-home
 		// load footer.pug
 		include footer

@@ -23,7 +23,6 @@ function callYelp(req, res, next, search, myCallback) {
 			res.cookie( 'city', {city:req.body.city, country: req.body.country, page: req.page, max_pages: max_pages} );
 			return myCallback(results,max_pages);
 		}).catch(e => {
-			console.log('Error');
 			res.cookie( 'search_error', search.location );
 			return res.redirect('/');
 		});

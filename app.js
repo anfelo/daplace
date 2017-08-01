@@ -62,7 +62,7 @@ app.use(function(req, res, next) {
 // Error Handler
 app.use(function(err,req,res,next) {
 	res.status(err.status || 500);
-	res.render('error', { error: err.message, title: 'Error'});
+	res.render('error', { error: err, title: 'Error'});
 });
 
 const port = process.env.PORT || 3000;
