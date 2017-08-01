@@ -5,8 +5,8 @@ var User = require('../models/user');
 var mid = require('../middleware');
 
 // Yelp Keys
-var clientId = 'DB3MWYqRCvWCKg5E-hs-SA';
-var clientSecret = 'L0fDXzoPl2NZQRnb6BwMtIhEU5GSuSGRC1I6ly1L1U1WhqrXgkgQZZg9dnCLYCMb';
+var clientId = process.env.YELP_ID_DAPLACE;
+var clientSecret = process.env.YELP_SECRET_DAPLACE;
 
 var results;
 

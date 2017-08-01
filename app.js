@@ -8,7 +8,7 @@ var app = express();
 
 // mongodb connection
 mongoose.Promise = global.Promise;
-var url = process.env.MONGOLAB_URI;
+var url = process.env.MONGOLAB_DAPLACE_URI;
 mongoose.connect(url);
 var db = mongoose.connection;
 
