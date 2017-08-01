@@ -5,7 +5,7 @@ var yelp = require('yelp-fusion');
 var clientId = process.env.YELP_ID_DAPLACE;
 var clientSecret = process.env.YELP_SECRET_DAPLACE;
 
-function callYelp(req, res, next, search, callback) {
+function callYelp(req, res, next, search, myCallback) {
 	yelp.accessToken(clientId, clientSecret).then(response => {
   var client = yelp.client(response.jsonBody.access_token);
 		client.search(search).then(response => {
@@ -21,9 +21,10 @@ function callYelp(req, res, next, search, callback) {
 				max_pages = 4;
 			}
 			res.cookie( 'city', {city:req.body.city, country: req.body.country, page: req.page, max_pages: max_pages} );
-			return callback(results);
+			return myCallback(results,max_pages);
 		}).catch(e => {
-			res.cookie( 'search_error', searchRequest.location );
+			console.log('Error');
+			res.cookie( 'search_error', search.location );
 			return res.redirect('/');
 		});
 	}).catch(e => {
