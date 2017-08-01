@@ -8,13 +8,6 @@ var mid = require('../middleware');
 var clientId = 'DB3MWYqRCvWCKg5E-hs-SA';
 var clientSecret = 'L0fDXzoPl2NZQRnb6BwMtIhEU5GSuSGRC1I6ly1L1U1WhqrXgkgQZZg9dnCLYCMb';
 
-var searchRequest = {
-  term: 'Bars',
-  location: '',
-	categories: 'nightlife',
-	offset: 0,
-};
-
 var results;
 
 router.param('pID', function (req, res, next, id) {
@@ -67,10 +60,16 @@ router.get('/search', mid.getUserPlaces, function(req, res, next){
 router.post('/search', mid.getUserPlaces,function(req, res, next){
 	// Request bars to Yelp API
 	if(req.cookies.search_error) res.clearCookie('search_error');
-	if(req.cookies.city){
-		searchRequest.location = req.cookies.city.city + ', ' + req.cookies.city.country;
-	} else {
+	var searchRequest = {
+		term: 'Bars',
+		location: '',
+		categories: 'nightlife',
+		offset: 0,
+	};
+	if(req.body.city){
 		searchRequest.location = req.body.city.toLowerCase() + ', ' + req.body.country.toLowerCase();
+	} else {
+		searchRequest.location = req.cookies.city.city + ', ' + req.cookies.city.country;
 	}
 	var page = parseInt(req.query.offset) - 1;
 	searchRequest.offset = page * 20;
