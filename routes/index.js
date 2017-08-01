@@ -1,12 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var yelp = require('yelp-fusion');
 var User = require('../models/user');
 var mid = require('../middleware');
-
-// Yelp Keys
-var clientId = process.env.YELP_ID_DAPLACE;
-var clientSecret = process.env.YELP_SECRET_DAPLACE;
 
 var results;
 
@@ -57,7 +52,7 @@ router.get('/search', mid.getUserPlaces, function(req, res, next){
 
 // POST /search
 // Display Search
-router.post('/search', mid.getUserPlaces,function(req, res, next){
+router.post('/search', mid.getUserPlaces, function(req, res, next){
 	// Request bars to Yelp API
 	if(req.cookies.search_error) res.clearCookie('search_error');
 	var searchRequest = {
@@ -69,33 +64,12 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 	if(req.body.city && req.body.country){
 		searchRequest.location = req.body.city.toLowerCase() + ', ' + req.body.country.toLowerCase();
 	} else {
-		searchRequest.location = req.cookies.city.city + ', ' + req.cookies.city.country;
+		searchRequest.location = req.body.city;
 	}
 	var page = parseInt(req.query.offset) - 1;
+	req.page = page + 1;
 	searchRequest.offset = page * 20;
-	yelp.accessToken(clientId, clientSecret).then(response => {
-  var client = yelp.client(response.jsonBody.access_token);
-		client.search(searchRequest).then(response => {
-			results = response.jsonBody.businesses;
-			var max_pages = 5;
-			if(response.jsonBody.total/1 <= 20) {
-				max_pages = 1;
-			} else if(response.jsonBody.total/2 <= 40) {
-				max_pages = 2;
-			} else if(response.jsonBody.total/3 <= 60) {
-				max_pages = 3;
-			} else if(response.jsonBody.total/4 <= 80) {
-				max_pages = 4;
-			}
-			res.cookie( 'city', {city:req.body.city, country:req.body.country, page:page+1, max_pages:max_pages} );
-			res.render('search', {places: results, userPlaces: req.userPlaces, page: page + 1, max_pages: max_pages, title: 'Search'});
-		}).catch(e => {
-			res.cookie( 'search_error', searchRequest.location );
-			res.redirect('/');
-		});
-	}).catch(e => {
-		next(e);
-	});
+	mid.callYelp(req, res, next, searchRequest);
 });
 
 // POST /search/:pId

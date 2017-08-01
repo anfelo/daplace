@@ -16,10 +16,10 @@ block content
 				while i <= max_pages
 					if page === i
 						form(method='POST' action='/search?offset='+i)
-							button.page-btn.selected(type='submit' name='city' value=places[0].location.city disabled)= i++
+							button.page-btn.selected(type='submit' name='city' value=places[0].location.city +', '+places[0].location.country disabled)= i++
 					else
 						form(method='POST' action='/search?offset='+i)
-							button.page-btn(type='submit' name='city' value=places[0].location.city)= i++
+							button.page-btn(type='submit' name='city' value=places[0].location.city +', '+places[0].location.country)= i++
 			.search-items-container
 				each place in places
 					.search-item
@@ -52,10 +52,7 @@ block content
 							.price 
 								| Price: 
 								strong #{place.price}
-							if !place.is_closed
-								.status.open Open Now!
-							else
-								.status Closed Now
+							.status.open Reviews: #{place.review_count}
 							form(method='POST' action='/search/'+place.id)
 								-if(userPlaces.indexOf(place.id) !== -1) {
 									button.btn.form-btn.search-item-btn.btn-active(type='submit') Not going!
