@@ -69,7 +69,10 @@ router.post('/search', mid.getUserPlaces, function(req, res, next){
 	var page = parseInt(req.query.offset) - 1;
 	req.page = page + 1;
 	searchRequest.offset = page * 20;
-	mid.callYelp(req, res, next, searchRequest);
+	mid.callYelp(req, res, next, searchRequest, function(searchRes){
+		results = searchRes;
+		return res.render('search', {places: results, userPlaces: req.userPlaces, page: req.page, max_pages: max_pages, title: 'Search'});
+	});
 });
 
 // POST /search/:pId
