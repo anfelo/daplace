@@ -66,7 +66,7 @@ router.post('/search', mid.getUserPlaces,function(req, res, next){
 		categories: 'nightlife',
 		offset: 0,
 	};
-	if(req.body.city){
+	if(req.body.city !== undefined){
 		searchRequest.location = req.body.city.toLowerCase() + ', ' + req.body.country.toLowerCase();
 	} else {
 		searchRequest.location = req.cookies.city.city + ', ' + req.cookies.city.country;
